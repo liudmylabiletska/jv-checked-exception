@@ -2,14 +2,15 @@ package core.basesyntax;
 
 public class UserService {
     private final PasswordValidator passwordValidator = new PasswordValidator();
-    private final UserRepository userRepository = new UserRepository(); // або інший DAO/репозиторій
-    public void registerUser(User user, String password, String repeatPassword) {
+    private final UserRepository userRepository = new UserRepository();
+
+    public void registerUser(User user) {
         try {
-            passwordValidator.validate(password, repeatPassword);
-            user.setPassword(password);
+            passwordValidator.validate(user.getPassword(), user.getRepeatPassword());
+            user.setPassword(user.getPassword());
             userRepository.saveUser(user);
         } catch (PasswordValidationException e) {
-            System.out.println("Ваші паролі невірні. Спробуйте ще раз");
+            System.out.println("Your passwords are incorrect. Try again.");
         }
     }
 }
